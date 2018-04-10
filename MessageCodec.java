@@ -1,4 +1,3 @@
-package chatmessala;
 
 public class MessageCodec {
 	static String publicKey = "publicKey";

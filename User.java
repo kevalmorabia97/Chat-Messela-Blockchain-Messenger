@@ -1,5 +1,3 @@
-package chatmessala;
-
 import java.util.ArrayList;
 import java.util.List;
 

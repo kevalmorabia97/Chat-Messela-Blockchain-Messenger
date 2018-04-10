@@ -1,4 +1,3 @@
-package chatmessala;
 
 import java.util.Date;
 
