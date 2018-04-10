@@ -7,7 +7,8 @@ public class Block {
 	int blockId;
 	int blockSize;
 	String blockHash;
-	List<Message> blockMessages; 
+	List<Message> blockMessages;
+	String parentHash;
 	
 	public Block(int blockSize) {
 		this.blockId = ++nextBlockId;
@@ -27,5 +28,9 @@ public class Block {
 
 	String getHash() {
 		return blockHash;
+	}
+	
+	String getParentHash() {
+		return parentHash;
 	}
 }

@@ -6,10 +6,10 @@ public class Message {
 	
 	int msgId;
 	int senderId, receiverId;
-	String cipherText;
+	byte[] cipherText;
 	Date createTimestamp;
 	
-	public Message(int senderId, int receiverId, String cipherText) {
+	public Message(int senderId, int receiverId, byte[] cipherText) {
 		this.msgId = ++nextMsgId;
 		this.senderId = senderId;
 		this.receiverId = receiverId;

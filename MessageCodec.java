@@ -11,10 +11,10 @@ public class MessageCodec {
 
         return cipher.doFinal(message.getBytes());  
     }
-    public static byte[] decrypt(PrivateKey privateKey, byte [] encrypted) throws Exception {
+    public static String decrypt(PrivateKey privateKey, byte [] encrypted) throws Exception {
         Cipher cipher = Cipher.getInstance("RSA");  
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
         
-        return cipher.doFinal(encrypted);
+        return new String(cipher.doFinal(encrypted));
     }
 }
