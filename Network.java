@@ -25,7 +25,6 @@ public class Network {
 		socket.setBroadcast(true);
 
 		byte[] buffer = broadcastMessage.getBytes();
-
 		DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, port);
 		socket.send(packet);
 		socket.close();
@@ -35,7 +34,7 @@ public class Network {
 		try {
 			@SuppressWarnings("resource")
 			DatagramSocket serverSocket = new DatagramSocket(port);
-			byte[] receiveData = new byte[8];
+			byte[] receiveData = new byte[65507];
 
 			System.out.printf("Network:" + networkId + ", Listening on udp:%s:%d%n",
 					InetAddress.getLocalHost().getHostAddress(), port);     
