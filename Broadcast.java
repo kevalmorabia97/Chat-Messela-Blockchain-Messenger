@@ -12,7 +12,7 @@ public class Broadcast {
 		
 		while(true) {
 			int port = sc.nextInt();
-			String msg = sc.next();
+			String msg = sc.nextLine();
 			n.broadcast(msg, address, port);
 		}
 	}
