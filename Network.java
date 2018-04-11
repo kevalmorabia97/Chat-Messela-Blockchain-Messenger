@@ -44,6 +44,7 @@ public class Network {
 				String sentence = new String( receivePacket.getData(), 0,
 						receivePacket.getLength() );
 				System.out.println("RECEIVED to Network:" + networkId + ",\n" + sentence);   
+				System.out.println(sentence.length());
 				InetAddress IPAddress = receivePacket.getAddress();
 				System.out.println("Address: " + IPAddress);
 			}
