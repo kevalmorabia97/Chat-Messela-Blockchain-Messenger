@@ -33,6 +33,7 @@ public class Network {
 
 	public void recieve(int port) {    
 		try {
+			@SuppressWarnings("resource")
 			DatagramSocket serverSocket = new DatagramSocket(port);
 			byte[] receiveData = new byte[8];
 

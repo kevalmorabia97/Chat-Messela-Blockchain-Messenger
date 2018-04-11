@@ -11,7 +11,7 @@ public class ReceiveThread implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.println("Network:" + network.networkId + " Thread created");
+		System.out.println("Network:" + network.networkId + " Thread created on port:" + port);
 		network.recieve(port);
 	}
 
