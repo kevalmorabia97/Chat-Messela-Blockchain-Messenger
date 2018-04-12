@@ -62,6 +62,7 @@ public class User extends Thread implements Serializable{
 	}
 
 	void printMyMessages() throws Exception {
+		System.out.println("----------- MY MESSAGES -----------------");
 		for(Block b : blockChain.blockChain) {
 			for(String m : b.blockMessages) {
 				String[] data = m.split(",");
@@ -70,6 +71,7 @@ public class User extends Thread implements Serializable{
 				}
 			}
 		}
+		System.out.println("-----------------------------------------");
 	}
 	
 	public PublicKey getUserPublicKey(String receiverName) {
