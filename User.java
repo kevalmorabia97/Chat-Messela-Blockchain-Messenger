@@ -50,7 +50,7 @@ public class User extends Thread implements Serializable{
 				+ "\nCreated at: " + createTimestamp;
 
 		byte[] cipherText = MessageCodec.encrypt(getUserPublicKey(receiverName), plainMsg);
-		broadCastMessage(cipherText);
+		broadCastMessage(("miner:false," + cipherText + "," + receiverName).getBytes());
 	}
 
 	private void broadCastMessage(byte[] m) throws IOException {		
@@ -61,8 +61,15 @@ public class User extends Thread implements Serializable{
 		return MessageCodec.decrypt(privateKey, cipherText);
 	}
 
-	private void printMyMessages() {
-		
+	void printMyMessages() throws Exception {
+		for(Block b : blockChain.blockChain) {
+			for(String m : b.blockMessages) {
+				String[] data = m.split(",");
+				if(data[1].equals(userName)){
+					System.out.println(decryptMessage(data[0].getBytes()));
+				}
+			}
+		}
 	}
 	
 	public PublicKey getUserPublicKey(String receiverName) {
