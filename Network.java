@@ -30,14 +30,14 @@ public class Network {
 		socket.close();
 	}
 
-	public void recieve(int port) {    
+	public void recieve(int port) {
 		try {
 			@SuppressWarnings("resource")
 			DatagramSocket serverSocket = new DatagramSocket(port);
 			byte[] receiveData = new byte[65507];
 
 			System.out.printf("Network:" + networkId + ", Listening on udp:%s:%d%n",
-					InetAddress.getLocalHost().getHostAddress(), port);     
+			InetAddress.getLocalHost().getHostAddress(), port);     
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			while(true){
 				serverSocket.receive(receivePacket);
