@@ -5,13 +5,11 @@ import java.util.List;
 public class BlockChain implements Serializable {
 	private static final long serialVersionUID = 1L;
 	List<Block> blockChain;
-	String hash;
 	int maxMessages;
 	
 	public BlockChain(int maxMessages) {
 		this.maxMessages = maxMessages;
 		blockChain = new ArrayList<>();
-		hash = "EMPTYBLOCKCHAIN";
 	}
 	
 	public void addMessage(String m) {
@@ -25,14 +23,5 @@ public class BlockChain implements Serializable {
 			lastBlock.addMessage(m);
 			blockChain.add(lastBlock);
 		}
-		updateHash();
-	}
-	
-	private void updateHash() {
-		hash = "UPDATEDHASH";
-	}
-	
-	public String getHash() {
-		return hash;
 	}
 }
