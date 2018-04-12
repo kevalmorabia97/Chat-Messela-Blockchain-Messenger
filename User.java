@@ -32,7 +32,7 @@ public class User extends Thread implements Serializable{
 		this.publicKey = keyPair.getPublic();
 		publicKeys.put(userName, publicKey);
 	}
-	
+
 	public void broadcastPublicKey() throws IOException {
 		String pubKey = SerializeObject.serializeObject(publicKey);
 		broadCastMessage(("newUser,"+userName+","+pubKey).getBytes());
@@ -42,7 +42,7 @@ public class User extends Thread implements Serializable{
 	public void run() {
 		recieve(port);
 	}
-	
+
 	void createMessage(String plainText, String receiverName) throws Exception {
 		Date createTimestamp = new Date();
 		String plainMsg = "From: " + userName
@@ -55,7 +55,8 @@ public class User extends Thread implements Serializable{
 			return;
 		}
 		byte[] cipherText = MessageCodec.encrypt(receiverKey, plainMsg);
-		broadCastMessage(("miner:false," + cipherText + "," + receiverName).getBytes());
+
+		broadCastMessage((concat("miner:false,",cipherText) + "," + receiverName).getBytes());
 	}
 
 	private void broadCastMessage(byte[] m) throws IOException {		
@@ -78,7 +79,7 @@ public class User extends Thread implements Serializable{
 		}
 		System.out.println("-----------------------------------------");
 	}
-	
+
 	public PublicKey getUserPublicKey(String receiverName) {
 		if(!publicKeys.containsKey(receiverName))	return null;
 		return publicKeys.get(receiverName);
@@ -97,9 +98,9 @@ public class User extends Thread implements Serializable{
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
 				System.out.println("RECEIVED:" + sentence);   
-//				System.out.println(sentence.length());
-//				InetAddress IPAddress = receivePacket.getAddress();
-//				System.out.println("Address: " + IPAddress);
+				//				System.out.println(sentence.length());
+				//				InetAddress IPAddress = receivePacket.getAddress();
+				//				System.out.println("Address: " + IPAddress);
 				if(sentence.startsWith("miner:true")) {
 					String[] data = sentence.split(",");
 					blockChain = (BlockChain)SerializeObject.deserializeObject(data[1]);
@@ -116,6 +117,15 @@ public class User extends Thread implements Serializable{
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}   
+	}
+
+	String concat(String str, byte[] bytes) {
+		final StringBuilder sb = new StringBuilder();
+		sb.append(str);
+		for (byte b : bytes) {
+			sb.append(b);
+		}
+		return sb.toString();
 	}
 
 }

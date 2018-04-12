@@ -23,8 +23,7 @@ public class Block implements Serializable{
 	}
 
 	private void updateHash() {
-		for(String s: blockMessages)
-		{
+		for(String s: blockMessages){
 			SHA256 s2 = new SHA256();
 			this.blockHash = s2.getSHA256Hash(blockHash + s);
 		}

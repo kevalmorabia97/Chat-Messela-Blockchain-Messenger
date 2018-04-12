@@ -8,12 +8,7 @@ public class Miner extends User{
 	private static final long serialVersionUID = 1L;
 
 	public Miner(String userName, int port) throws NoSuchAlgorithmException {
-		super(userName, port);
-		
-	}
-	
-	public void updateHashTable(String userName) {
-		
+		super(userName, port);	
 	}
 	
 	public void broadcastEverything() throws Exception {
