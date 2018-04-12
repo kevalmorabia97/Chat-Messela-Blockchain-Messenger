@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -7,7 +8,9 @@ import java.util.Date;
 import java.util.Hashtable;
 
 
-public class User {
+public class User implements Serializable{
+	private static final long serialVersionUID = 1L;
+
 	static Hashtable<String, PublicKey> publicKeys = new Hashtable<>();
 
 	String userName;
