@@ -39,8 +39,8 @@ public class Miner extends User{
 //				InetAddress IPAddress = receivePacket.getAddress();
 //				System.out.println("Address: " + IPAddress);
 				
-				if(sentence.startsWith("miner:false")) {
-					blockChain.addMessage(sentence.substring(12));
+				if(!sentence.startsWith("miner:false") && !sentence.startsWith("newUser")) {
+					blockChain.addMessage(sentence);
 					broadcastEverything();
 				}
 			}

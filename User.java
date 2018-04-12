@@ -25,7 +25,7 @@ public class User extends Thread implements Serializable{
 	public User(String userName, int port) throws NoSuchAlgorithmException {
 		this.userName = userName;
 		this.port = port;
-		blockChain = new BlockChain(1024);
+		blockChain = new BlockChain(3);
 
 		KeyPair keyPair = RSA_ALgos.buildKeyPair();
 		this.privateKey = keyPair.getPrivate();
@@ -45,9 +45,7 @@ public class User extends Thread implements Serializable{
 
 	void createMessage(String plainText, String receiverName) throws Exception {
 		Date createTimestamp = new Date();
-		String plainMsg = "From: " + userName
-				+ "\nBody: " + plainText
-				+ "\nCreated at: " + createTimestamp;
+		String plainMsg = "123";
 
 		PublicKey receiverKey = getUserPublicKey(receiverName);
 		if(receiverKey == null) {
@@ -56,7 +54,7 @@ public class User extends Thread implements Serializable{
 		}
 		byte[] cipherText = MessageCodec.encrypt(receiverKey, plainMsg);
 
-		broadCastMessage((concat("miner:false,",cipherText) + "," + receiverName).getBytes());
+		broadCastMessage(cipherText);
 	}
 
 	private void broadCastMessage(byte[] m) throws IOException {		
@@ -70,11 +68,15 @@ public class User extends Thread implements Serializable{
 	void printMyMessages() throws Exception {
 		System.out.println("----------- MY MESSAGES -----------------");
 		for(Block b : blockChain.blockChain) {
+			System.out.println("BLOCK");
 			for(String m : b.blockMessages) {
-				String[] data = m.split(",");
-				if(data[1].equals(userName)){
-					System.out.println(decryptMessage(data[0].getBytes()));
-				}
+				System.out.println(m);
+//				String[] data = m.split(",");
+//				if(data[1].equals(userName)){
+//					System.out.println(data[0].getBytes().length);
+//					System.out.println(decryptMessage(data[0].getBytes()));
+//				}
+				System.out.println(decryptMessage(m.getBytes()));
 			}
 		}
 		System.out.println("-----------------------------------------");
