@@ -13,6 +13,12 @@ public class BlockChain implements Serializable {
 	}
 	
 	public void addMessage(String m) {
+		if(blockChain.size() == 0) {
+			Block nextBlock = new Block(maxMessages, "ROOT BLOCK");
+			nextBlock.addMessage(m);
+			blockChain.add(nextBlock);
+			return;
+		}
 		Block lastBlock = blockChain.remove(blockChain.size()-1);
 		if(lastBlock.blockMessages.size() == maxMessages) {
 			Block nextBlock = new Block(maxMessages, lastBlock.blockHash);
