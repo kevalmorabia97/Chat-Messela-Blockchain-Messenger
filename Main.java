@@ -1,6 +1,6 @@
 public class Main {
 	public static void main(String[] args) throws Exception {
-		User keval = new User("Keval", 1111);
+		User keval = new User("keval", 1111);
 		keval.broadcastPublicKey();
 		keval.start();
 		

@@ -76,7 +76,6 @@ public class User extends Thread implements Serializable{
 		return publicKeys.get(receiverName);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void recieve(int port) {
 		try {
 			@SuppressWarnings("resource")
@@ -89,14 +88,19 @@ public class User extends Thread implements Serializable{
 			while(true){
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
-//				System.out.println("RECEIVED:" + sentence);   
+				System.out.println("RECEIVED:" + sentence.subSequence(0, 100) + "...");   
 //				System.out.println(sentence.length());
 //				InetAddress IPAddress = receivePacket.getAddress();
 //				System.out.println("Address: " + IPAddress);
 				if(sentence.startsWith("miner:true")) {
 					String[] data = sentence.split(",");
-					publicKeys = (Hashtable<String, PublicKey>)SerializeObject.deserializeObject(data[1]);
-					blockChain = (BlockChain)SerializeObject.deserializeObject(data[2]);
+					blockChain = (BlockChain)SerializeObject.deserializeObject(data[1]);
+				}else if(sentence.startsWith("newUser")) {
+					String[] data = sentence.split(",");
+					String newUserName = data[1];
+					PublicKey newPublicKey = (PublicKey)SerializeObject.deserializeObject(data[2]);
+					System.out.println("NewUser:" + newUserName + "PublicKey: " + newPublicKey);
+					publicKeys.put(newUserName, newPublicKey);
 				}
 			}
 		} catch (IOException e) {
