@@ -49,7 +49,12 @@ public class User extends Thread implements Serializable{
 				+ "\nBody: " + plainText
 				+ "\nCreated at: " + createTimestamp;
 
-		byte[] cipherText = MessageCodec.encrypt(getUserPublicKey(receiverName), plainMsg);
+		PublicKey receiverKey = getUserPublicKey(receiverName);
+		if(receiverKey == null) {
+			System.out.println("RECEIVER " + receiverName + " DOES NOT EXIST");
+			return;
+		}
+		byte[] cipherText = MessageCodec.encrypt(receiverKey, plainMsg);
 		broadCastMessage(("miner:false," + cipherText + "," + receiverName).getBytes());
 	}
 
@@ -75,6 +80,7 @@ public class User extends Thread implements Serializable{
 	}
 	
 	public PublicKey getUserPublicKey(String receiverName) {
+		if(!publicKeys.containsKey(receiverName))	return null;
 		return publicKeys.get(receiverName);
 	}
 
@@ -101,7 +107,7 @@ public class User extends Thread implements Serializable{
 					String[] data = sentence.split(",");
 					String newUserName = data[1];
 					PublicKey newPublicKey = (PublicKey)SerializeObject.deserializeObject(data[2]);
-					System.out.println("NewUser:" + newUserName + "PublicKey: " + newPublicKey);
+					//System.out.println("NewUser:" + newUserName + "PublicKey: " + newPublicKey);
 					publicKeys.put(newUserName, newPublicKey);
 				}
 			}
