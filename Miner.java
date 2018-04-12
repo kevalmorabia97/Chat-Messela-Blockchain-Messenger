@@ -3,6 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 public class Miner extends User{
 	private static final long serialVersionUID = 1L;
@@ -10,13 +11,13 @@ public class Miner extends User{
 	public Miner(String userName, int port) throws NoSuchAlgorithmException {
 		super(userName, port);	
 	}
-	
+
 	public void broadcastEverything() throws Exception {
-		String blockChainData = SerializeObject.serializeObject(blockChain);
+		String blockChainData = SerializeObject.serializeObject(blockChain.blockChain.get(blockChain.blockChain.size() - 1));
 		String message = "BLOCKCHAIN," + blockChainData;
 		broadCastMessage(message);
 	}
-	
+
 	void broadCastMessage(String m) throws IOException {		
 		Broadcast.broadcast(m, Network.availableInterfaces().get(0), port);
 	}
@@ -29,21 +30,31 @@ public class Miner extends User{
 			byte[] receiveData = new byte[65507];
 
 			System.out.printf("Listening on udp:%s:%d%n",
-			InetAddress.getLocalHost().getHostAddress(), port);     
+					InetAddress.getLocalHost().getHostAddress(), port);     
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			while(true){
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
 				System.out.println("\nRECEIVED --> " + sentence);   
-//				System.out.println(sentence.length());
-//				InetAddress IPAddress = receivePacket.getAddress();
-//				System.out.println("Address: " + IPAddress);
-				
+				//				System.out.println(sentence.length());
+				//				InetAddress IPAddress = receivePacket.getAddress();
+				//				System.out.println("Address: " + IPAddress);
+
 				if(sentence.startsWith("MESSAGE")) {
 					String[] data = sentence.split(",");
 					Message m = (Message)SerializeObject.deserializeObject(data[1]);
 					blockChain.addMessage(m);
 					broadcastEverything();
+				}else if(sentence.startsWith("NEWUSER")) {
+					String[] data = sentence.split(",");
+					String newUserName = data[1];
+					PublicKey newPublicKey = (PublicKey)SerializeObject.deserializeObject(data[2]);
+					if(publicKeys.containsKey(newUserName)) {
+						broadCastMessage("DENIEDNEWUSER," + newUserName);
+					}
+					else {
+						publicKeys.put(newUserName, newPublicKey);
+					}
 				}
 			}
 		} catch (IOException e) {
@@ -52,7 +63,7 @@ public class Miner extends User{
 			e.printStackTrace();
 		}   
 	}
-	
-	
+
+
 
 }

@@ -105,7 +105,12 @@ public class User extends Thread implements Serializable{
 					String[] data = sentence.split(",");
 					String newUserName = data[1];
 					PublicKey newPublicKey = (PublicKey)SerializeObject.deserializeObject(data[2]);
-					publicKeys.put(newUserName, newPublicKey);
+					if(publicKeys.containsKey(newUserName)) {
+						broadCastMessage("DENIEDNEWUSER," + newUserName);
+					}
+					else {
+						publicKeys.put(newUserName, newPublicKey);
+					}
 				}
 			}
 		} catch (IOException e) {
