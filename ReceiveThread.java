@@ -11,7 +11,7 @@ public class ReceiveThread implements Runnable {
 	
 	@Override
 	public void run() {
-		network.recieve(port);
+		
 	}
 
 }

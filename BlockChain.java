@@ -3,31 +3,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockChain implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	List<Block> blockChain;
 	String hash;
-	String parentHash;
-	int maxBlockSize;
+	int maxMessages;
 	
-	public BlockChain(int maxBlockSize) {
-		this.maxBlockSize = maxBlockSize;
+	public BlockChain(int maxMessages) {
+		this.maxMessages = maxMessages;
 		blockChain = new ArrayList<>();
 		hash = "EMPTYBLOCKCHAIN";
 	}
 	
-	public BlockChain() {
-		this.maxBlockSize = 3;
-		blockChain = new ArrayList<>();
-		hash = "EMPTYBLOCKCHAIN";
-	}
-	
-	void addBlock(Block b) {
-		blockChain.add(b);
+	public void addMessage(String m) {
+		Block lastBlock = blockChain.remove(blockChain.size()-1);
+		if(lastBlock.blockMessages.size() == maxMessages) {
+			Block nextBlock = new Block(maxMessages, lastBlock.blockHash);
+			nextBlock.addMessage(m);
+			blockChain.add(lastBlock);
+			blockChain.add(nextBlock);
+		}else {
+			lastBlock.addMessage(m);
+			blockChain.add(lastBlock);
+		}
 		updateHash();
-		//notifyUsers();
 	}
 	
 	private void updateHash() {
@@ -37,9 +35,4 @@ public class BlockChain implements Serializable {
 	public String getHash() {
 		return hash;
 	}
-	
-	public String getParentHash() {
-		return parentHash;
-	}
-	
 }
