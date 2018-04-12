@@ -46,8 +46,8 @@ public class User extends Thread implements Serializable{
 	void createMessage(String plainText, String receiverName) throws Exception {
 		Date createTimestamp = new Date();
 		String plainMsg = "Sender    : " + userName
-				+ "Body      : " + plainText
-				+ "Timestamp : " + createTimestamp;
+				+ "\nBody      : " + plainText
+				+ "\nTimestamp : " + createTimestamp;
 
 		PublicKey receiverKey = getUserPublicKey(receiverName);
 		if(receiverKey == null) {
@@ -98,6 +98,7 @@ public class User extends Thread implements Serializable{
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
 				System.out.println("\nRECEIVED --> " + sentence);
+				
 				if(sentence.startsWith("BLOCKCHAIN")) {
 					String[] data = sentence.split(",");
 					blockChain = (BlockChain)SerializeObject.deserializeObject(data[1]);
