@@ -1,7 +1,7 @@
 import java.security.MessageDigest;
 import javax.xml.bind.DatatypeConverter;
-public class SHA256 {
-	@SuppressWarnings("unused") 
+
+public class SHA256 { 
 	String getSHA256Hash(String data) {
 		String result = null;
 		try {
@@ -16,4 +16,4 @@ public class SHA256 {
 	private String bytesToHex(byte[] hash) {
 		return DatatypeConverter.printHexBinary(hash);
 	}
-}
+}	

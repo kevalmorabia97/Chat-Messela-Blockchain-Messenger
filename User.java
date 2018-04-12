@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -8,38 +11,39 @@ import java.util.Date;
 import java.util.Hashtable;
 
 
-public class User implements Serializable{
+public class User implements Serializable, Runnable{
 	private static final long serialVersionUID = 1L;
 
-	static Hashtable<String, PublicKey> publicKeys = new Hashtable<>();
+	Hashtable<String, PublicKey> publicKeys = new Hashtable<>();
 
 	String userName;
 	int port;
 	private PrivateKey privateKey;
 	PublicKey publicKey;
 	BlockChain blockChain = null;
-	Thread receiveThread;
 
 	public User(String userName, int port) throws NoSuchAlgorithmException {
 		this.userName = userName;
 		this.port = port;
 		blockChain = new BlockChain(1024);
-		receiveThread = new Thread(new ReceiveThread(port));
-		
+
 		KeyPair keyPair = RSA_ALgos.buildKeyPair();
 		this.privateKey = keyPair.getPrivate();
 		this.publicKey = keyPair.getPublic();
 		publicKeys.put(userName, publicKey);
-		
-		receiveThread.start();
 	}
 
+	@Override
+	public void run() {
+		recieve(port);
+	}
+	
 	void createMessage(String plainText, String receiverName) throws Exception {
 		Date createTimestamp = new Date();
 		String plainMsg = "From: " + userName
 				+ "\nBody: " + plainText
 				+ "\nCreated at: " + createTimestamp;
-		
+
 		byte[] cipherText = MessageCodec.encrypt(getUserPublicKey(receiverName), plainMsg);
 		broadCastMessage(cipherText);
 	}
@@ -52,7 +56,42 @@ public class User implements Serializable{
 		return MessageCodec.decrypt(privateKey, cipherText);
 	}
 
-	public static PublicKey getUserPublicKey(String receiverName) {
+	private void printMyMessages() {
+		
+	}
+	
+	public PublicKey getUserPublicKey(String receiverName) {
 		return publicKeys.get(receiverName);
 	}
+
+	@SuppressWarnings("unchecked")
+	public void recieve(int port) {
+		try {
+			@SuppressWarnings("resource")
+			DatagramSocket serverSocket = new DatagramSocket(port);
+			byte[] receiveData = new byte[65507];
+
+			System.out.printf("Listening on udp:%s:%d%n",
+					InetAddress.getLocalHost().getHostAddress(), port);     
+			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			while(true){
+				serverSocket.receive(receivePacket);
+				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
+//				System.out.println("RECEIVED:" + sentence);   
+//				System.out.println(sentence.length());
+//				InetAddress IPAddress = receivePacket.getAddress();
+//				System.out.println("Address: " + IPAddress);
+				if(sentence.startsWith("miner:true")) {
+					String[] data = sentence.split(",");
+					publicKeys = (Hashtable<String, PublicKey>)SerializeObject.deserializeObject(data[1]);
+					blockChain = (BlockChain)SerializeObject.deserializeObject(data[2]);
+				}
+			}
+		} catch (IOException e) {
+			System.out.println(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}   
+	}
+
 }

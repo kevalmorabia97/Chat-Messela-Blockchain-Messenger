@@ -1,9 +1,13 @@
 public class Main {
 	public static void main(String[] args) throws Exception {
-		User keval = new User("Keval", 1111);
+		Thread keval = new Thread(new User("Keval", 1111));
+		keval.start();
+		
+		Thread pro = new Thread(new Miner("Pro", 1111));
+		pro.start();
 		
 //		System.out.println(keval.publicKey);
-		keval.createMessage("Hello World", "Keval");
+		//keval.createMessage("Hello World", "Keval");
 		
 //		new Thread(new ReceiveThread(1111)).start();
 //		new Thread(new ReceiveThread(2222)).start();
