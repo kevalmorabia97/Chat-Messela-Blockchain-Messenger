@@ -22,7 +22,8 @@ public class Main {
 		
 //		new Thread(new ReceiveThread(1111)).start();
 //		new Thread(new ReceiveThread(2222)).start();
-		
+		SHA256 sg = new SHA256();
+		System.out.println(sg.getSHA256Hash("DIPIKABADIR" + "NEICHAYPTO"));
 		//new Network().broadcast("Myself", Network.availableInterfaces().get(0), 1111);
 	}
 }

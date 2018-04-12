@@ -24,9 +24,10 @@ public class Block {
 	}
 
 	private void updateHash() {
-		for(String s: blockMessages){
+		for(String s: blockMessages)
+		{
 			SHA256 s2 = new SHA256();
-			blockHash = s2.getSHA256Hash(blockHash + s);
+			this.blockHash = s2.getSHA256Hash(blockHash + s);
 		}
 	}
 
