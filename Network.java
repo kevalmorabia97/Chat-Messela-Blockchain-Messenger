@@ -10,25 +10,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Network {
-	static int nextNetworkId;
-
-	private DatagramSocket socket = null;
-	int networkId; 
-
-	public Network() {
-		this.networkId = ++nextNetworkId;
-	}
-
-
-	public void broadcast(String broadcastMessage, InetAddress address, int port) throws IOException {
-		socket = new DatagramSocket();
-		socket.setBroadcast(true);
-
-		byte[] buffer = broadcastMessage.getBytes();
-		DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, port);
-		socket.send(packet);
-		socket.close();
-	}
 
 	public void recieve(int port) {
 		try {
@@ -36,14 +17,14 @@ public class Network {
 			DatagramSocket serverSocket = new DatagramSocket(port);
 			byte[] receiveData = new byte[65507];
 
-			System.out.printf("Network:" + networkId + ", Listening on udp:%s:%d%n",
+			System.out.printf("Listening on udp:%s:%d%n",
 			InetAddress.getLocalHost().getHostAddress(), port);     
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			while(true){
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0,
 						receivePacket.getLength() );
-				System.out.println("RECEIVED to Network:" + networkId + ",\n" + sentence);   
+				System.out.println("RECEIVED:" + sentence);   
 				System.out.println(sentence.length());
 				InetAddress IPAddress = receivePacket.getAddress();
 				System.out.println("Address: " + IPAddress);

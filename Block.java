@@ -7,7 +7,7 @@ public class Block {
 	int blockId;
 	int blockSize;
 	String blockHash;
-	List<Message> blockMessages;
+	List<String> blockMessages;
 	String parentHash;
 	
 	public Block(int blockSize) {
@@ -17,7 +17,7 @@ public class Block {
 		this.blockHash = "EMPTYBLOCK";
 	}
 	
-	void addMessage(Message m) {
+	void addMessage(String m) {
 		blockMessages.add(m);
 		updateHash();
 	}
