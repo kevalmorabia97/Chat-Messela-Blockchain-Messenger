@@ -35,7 +35,7 @@ public class User extends Thread implements Serializable{
 
 	public void broadcastPublicKey() throws IOException {
 		String pubKey = SerializeObject.serializeObject(publicKey);
-		broadCastMessage(("newUser,"+userName+","+pubKey).getBytes());
+		broadCastMessage("NEWUSER," + userName + "," + pubKey);
 	}
 
 	@Override
@@ -45,7 +45,9 @@ public class User extends Thread implements Serializable{
 
 	void createMessage(String plainText, String receiverName) throws Exception {
 		Date createTimestamp = new Date();
-		String plainMsg = "123";
+		String plainMsg = "Sender    : " + userName
+				+ "Body      : " + plainText
+				+ "Timestamp : " + createTimestamp;
 
 		PublicKey receiverKey = getUserPublicKey(receiverName);
 		if(receiverKey == null) {
@@ -53,15 +55,16 @@ public class User extends Thread implements Serializable{
 			return;
 		}
 		byte[] cipherText = MessageCodec.encrypt(receiverKey, plainMsg);
-
-		broadCastMessage(cipherText);
+		//		System.out.println(cipherText);
+		Message m = new Message(cipherText, receiverName);
+		broadCastMessage("MESSAGE,"+SerializeObject.serializeObject(m));
 	}
 
-	private void broadCastMessage(byte[] m) throws IOException {		
+	private void broadCastMessage(String m) throws IOException {		
 		Broadcast.broadcast(m, Network.availableInterfaces().get(0), port);
 	}
 
-	private String decryptMessage(byte[] cipherText) throws Exception {
+	String decryptMessage(byte[] cipherText) throws Exception {
 		return MessageCodec.decrypt(privateKey, cipherText);
 	}
 
@@ -69,14 +72,10 @@ public class User extends Thread implements Serializable{
 		System.out.println("----------- MY MESSAGES -----------------");
 		for(Block b : blockChain.blockChain) {
 			System.out.println("BLOCK");
-			for(String m : b.blockMessages) {
-				System.out.println(m);
-//				String[] data = m.split(",");
-//				if(data[1].equals(userName)){
-//					System.out.println(data[0].getBytes().length);
-//					System.out.println(decryptMessage(data[0].getBytes()));
-//				}
-				System.out.println(decryptMessage(m.getBytes()));
+			for(Message m : b.blockMessages) {
+				if(m.receiver.equals(userName)){
+					System.out.println(decryptMessage(m.cipherText));
+				}
 			}
 		}
 		System.out.println("-----------------------------------------");
@@ -91,26 +90,21 @@ public class User extends Thread implements Serializable{
 		try {
 			@SuppressWarnings("resource")
 			DatagramSocket serverSocket = new DatagramSocket(port);
-			byte[] receiveData = new byte[65507];
+			byte[] receiveData = new byte[128];
 
-			System.out.printf("Listening on udp:%s:%d%n",
-					InetAddress.getLocalHost().getHostAddress(), port);     
+			System.out.printf("Listening on udp:%s:%d%n", InetAddress.getLocalHost().getHostAddress(), port);     
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			while(true){
 				serverSocket.receive(receivePacket);
-				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
-				System.out.println("RECEIVED:" + sentence);   
-				//				System.out.println(sentence.length());
-				//				InetAddress IPAddress = receivePacket.getAddress();
-				//				System.out.println("Address: " + IPAddress);
-				if(sentence.startsWith("miner:true")) {
+				String sentence = new String( receiveData );
+				System.out.println("\nRECEIVED --> " + receiveData);
+				if(sentence.startsWith("BLOCKCHAIN")) {
 					String[] data = sentence.split(",");
 					blockChain = (BlockChain)SerializeObject.deserializeObject(data[1]);
-				}else if(sentence.startsWith("newUser")) {
+				}else if(sentence.startsWith("NEWUSER")) {
 					String[] data = sentence.split(",");
 					String newUserName = data[1];
 					PublicKey newPublicKey = (PublicKey)SerializeObject.deserializeObject(data[2]);
-					//System.out.println("NewUser:" + newUserName + "PublicKey: " + newPublicKey);
 					publicKeys.put(newUserName, newPublicKey);
 				}
 			}
@@ -120,14 +114,4 @@ public class User extends Thread implements Serializable{
 			e.printStackTrace();
 		}   
 	}
-
-	String concat(String str, byte[] bytes) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(str);
-		for (byte b : bytes) {
-			sb.append(b);
-		}
-		return sb.toString();
-	}
-
 }

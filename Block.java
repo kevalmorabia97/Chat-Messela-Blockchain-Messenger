@@ -7,7 +7,7 @@ public class Block implements Serializable{
 	
 	int blockSize;
 	String blockHash;
-	List<String> blockMessages;
+	List<Message> blockMessages;
 	String parentHash;
 
 	public Block(int blockSize, String parentHash) {
@@ -17,15 +17,15 @@ public class Block implements Serializable{
 		this.blockHash = "EMPTYBLOCK";
 	}
 
-	void addMessage(String m) {
+	void addMessage(Message m) {
 		blockMessages.add(m);
 		updateHash();
 	}
 
 	private void updateHash() {
-		for(String s: blockMessages){
-			SHA256 s2 = new SHA256();
-			this.blockHash = s2.getSHA256Hash(blockHash + s);
+		SHA256 s = new SHA256();
+		for(Message m: blockMessages){
+			blockHash = s.getSHA256Hash(blockHash + m.cipherText + m.receiver);
 		}
 	}
 

@@ -1,27 +1,29 @@
 public class Main {
 	public static void main(String[] args) throws Exception {
 		
-		User keval = new User("keval", 1111);
-		keval.start();
-
-		Thread.sleep(10000);
-		
-		keval.broadcastPublicKey();
-		
-		Thread.sleep(5000);
-		
-		System.out.println("SENDING MESSAGES");
-		keval.createMessage("I am keval", "keval");
-		Thread.sleep(5000);
-		keval.createMessage("hey guys", "addy");
-		Thread.sleep(5000);
+//		User keval = new User("keval", 1111);
+//		keval.start();
+//		
+//		Thread.sleep(10000);
+//		keval.broadcastPublicKey();
+//		Thread.sleep(5000);
+//		
+//		System.out.println("SENDING MESSAGES");
+//		keval.createMessage("I am keval", "keval");
+//		Thread.sleep(5000);
+//		keval.createMessage("hey guys", "addy");
+//		Thread.sleep(5000);
 //		keval.createMessage("noobchain", "kriti");
-		Thread.sleep(5000);
-		keval.printMyMessages();
+//		Thread.sleep(5000);
+//		keval.printMyMessages();
+		
 		
 //		User addy = new User("addy", 1111);
-//		addy.broadcastPublicKey();
 //		addy.start();
+//		
+//		Thread.sleep(10000);
+//		addy.broadcastPublicKey();
+//		Thread.sleep(5000);
 //
 //		Thread.sleep(10000);
 //		System.out.println("SENDING MESSAGES");
@@ -32,10 +34,14 @@ public class Main {
 //		addy.createMessage("noobie", "keval");
 //		Thread.sleep(5000);
 //		addy.printMyMessages();
+	
 		
 //		User kriti = new User("kriti", 1111);
-//		kriti.broadcastPublicKey();
 //		kriti.start();
+//		
+//		Thread.sleep(10000);
+//		kriti.broadcastPublicKey();
+//		Thread.sleep(5000);
 //
 //		Thread.sleep(10000);
 //		System.out.println("SENDING MESSAGES");

@@ -13,7 +13,7 @@ public class Miner extends User{
 	
 	public void broadcastEverything() throws Exception {
 		String blockChainData = SerializeObject.serializeObject(blockChain);
-		String message = "miner:true," + blockChainData;
+		String message = "BLOCKCHAIN," + blockChainData;
 		broadCastMessage(message);
 	}
 	
@@ -34,13 +34,15 @@ public class Miner extends User{
 			while(true){
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
-				System.out.println("RECEIVED:" + sentence);   
+				System.out.println("\nRECEIVED --> " + sentence);   
 //				System.out.println(sentence.length());
 //				InetAddress IPAddress = receivePacket.getAddress();
 //				System.out.println("Address: " + IPAddress);
 				
-				if(!sentence.startsWith("miner:true") && !sentence.startsWith("newUser")) {
-					blockChain.addMessage(sentence);
+				if(sentence.startsWith("MESSAGE")) {
+					String[] data = sentence.split(",");
+					Message m = (Message)SerializeObject.deserializeObject(data[1]);
+					blockChain.addMessage(m);
 					broadcastEverything();
 				}
 			}

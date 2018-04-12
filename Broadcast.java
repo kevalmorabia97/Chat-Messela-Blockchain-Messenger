@@ -27,13 +27,4 @@ public class Broadcast {
 		socket.send(packet);
 		socket.close();
 	}
-	
-	public static void broadcast(byte[] buffer, InetAddress address, int port) throws IOException {
-		DatagramSocket socket = new DatagramSocket();
-		socket.setBroadcast(true);
-
-		DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, port);
-		socket.send(packet);
-		socket.close();
-	}
 }

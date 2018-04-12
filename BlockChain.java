@@ -12,7 +12,7 @@ public class BlockChain implements Serializable {
 		blockChain = new ArrayList<>();
 	}
 	
-	public void addMessage(String m) {
+	public void addMessage(Message m) {
 		if(blockChain.size() == 0) {
 			Block nextBlock = new Block(maxMessages, "ROOT BLOCK");
 			nextBlock.addMessage(m);
