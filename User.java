@@ -17,7 +17,7 @@ public class User implements Serializable{
 	int port;
 	private PrivateKey privateKey;
 	PublicKey publicKey;
-	BlockChain blockChain;
+	BlockChain blockChain = null;
 	Thread receiveThread;
 
 	public User(String userName, int port) throws NoSuchAlgorithmException {
@@ -44,7 +44,7 @@ public class User implements Serializable{
 		broadCastMessage(cipherText);
 	}
 
-	private void broadCastMessage(byte[] m) throws IOException {		
+	void broadCastMessage(byte[] m) throws IOException {		
 		Broadcast.broadcast(m, Network.availableInterfaces().get(0), port);
 	}
 
