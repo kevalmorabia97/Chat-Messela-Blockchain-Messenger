@@ -2,16 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Block {
-	static int nextBlockId;
-
-	int blockId;
 	int blockSize;
 	String blockHash;
 	List<String> blockMessages;
 	String parentHash;
 
 	public Block(int blockSize, String parentHash) {
-		this.blockId = ++nextBlockId;
 		this.blockSize = blockSize;
 		this.blockMessages = new ArrayList<>();
 		this.parentHash = parentHash;
