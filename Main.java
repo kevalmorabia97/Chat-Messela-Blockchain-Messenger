@@ -33,7 +33,6 @@ public class Main {
 //		Thread.sleep(5000);
 //
 //		addy.printMyMessages();
-//		
 		
 //		User kriti = new User("kriti", 1111);
 //		kriti.broadcastPublicKey();
@@ -51,9 +50,8 @@ public class Main {
 //		Thread.sleep(5000);
 //
 //		kriti.printMyMessages();
-//		
-		
-//		
+
+			
 //		Miner pro = new Miner("pro", 1111);
 //		pro.start();
 	}
