@@ -1,7 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Block {
+public class Block implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	int blockSize;
 	String blockHash;
 	List<String> blockMessages;
