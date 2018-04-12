@@ -35,11 +35,7 @@ public class Miner extends User{
 			while(true){
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
-				System.out.println("\nRECEIVED --> " + sentence);   
-				//				System.out.println(sentence.length());
-				//				InetAddress IPAddress = receivePacket.getAddress();
-				//				System.out.println("Address: " + IPAddress);
-
+				System.out.println("\nRECEIVED --> " + sentence);
 				if(sentence.startsWith("MESSAGE")) {
 					String[] data = sentence.split(",");
 					Message m = (Message)SerializeObject.deserializeObject(data[1]);
