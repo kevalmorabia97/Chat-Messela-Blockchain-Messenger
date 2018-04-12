@@ -88,7 +88,7 @@ public class User extends Thread implements Serializable{
 			while(true){
 				serverSocket.receive(receivePacket);
 				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
-				System.out.println("RECEIVED:" + sentence.subSequence(0, 100) + "...");   
+				System.out.println("RECEIVED:" + sentence);   
 //				System.out.println(sentence.length());
 //				InetAddress IPAddress = receivePacket.getAddress();
 //				System.out.println("Address: " + IPAddress);
