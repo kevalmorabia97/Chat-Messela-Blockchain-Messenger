@@ -57,7 +57,7 @@ public class User extends Thread implements Serializable{
 		byte[] cipherText = MessageCodec.encrypt(receiverKey, plainMsg);
 		//		System.out.println(cipherText);
 		Message m = new Message(cipherText, receiverName);
-		broadCastMessage("MESSAGE,"+SerializeObject.serializeObject(m));
+		broadCastMessage("MESSAGE," + SerializeObject.serializeObject(m));
 	}
 
 	private void broadCastMessage(String m) throws IOException {		
@@ -90,14 +90,14 @@ public class User extends Thread implements Serializable{
 		try {
 			@SuppressWarnings("resource")
 			DatagramSocket serverSocket = new DatagramSocket(port);
-			byte[] receiveData = new byte[128];
+			byte[] receiveData = new byte[65507];
 
 			System.out.printf("Listening on udp:%s:%d%n", InetAddress.getLocalHost().getHostAddress(), port);     
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			while(true){
 				serverSocket.receive(receivePacket);
-				String sentence = new String( receiveData );
-				System.out.println("\nRECEIVED --> " + receiveData);
+				String sentence = new String( receivePacket.getData(), 0, receivePacket.getLength() );
+				System.out.println("\nRECEIVED --> " + sentence);
 				if(sentence.startsWith("BLOCKCHAIN")) {
 					String[] data = sentence.split(",");
 					blockChain = (BlockChain)SerializeObject.deserializeObject(data[1]);
