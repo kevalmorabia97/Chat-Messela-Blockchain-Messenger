@@ -1,11 +1,22 @@
 public class Main {
 	public static void main(String[] args) throws Exception {
-		Thread keval = new Thread(new User("Keval", 1111));
+		User keval = new User("Keval", 1111);
+		keval.broadcastPublicKey();
 		keval.start();
 		
-		Thread pro = new Thread(new Miner("Pro", 1111));
-		pro.start();
+		Thread.sleep(5000);
 		
+		keval.createMessage("I am keval", "pro");
+		Thread.sleep(5000);
+		keval.createMessage("hey guys", "pro");
+		Thread.sleep(5000);
+		keval.createMessage("noobchain", "pro");
+		
+		
+		
+//		Thread pro = new Thread(new Miner("Pro", 1111));
+//		pro.start();
+//		
 //		System.out.println(keval.publicKey);
 		//keval.createMessage("Hello World", "Keval");
 		

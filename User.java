@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Hashtable;
 
 
-public class User implements Serializable, Runnable{
+public class User extends Thread implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	Hashtable<String, PublicKey> publicKeys = new Hashtable<>();
@@ -32,6 +32,11 @@ public class User implements Serializable, Runnable{
 		this.publicKey = keyPair.getPublic();
 		publicKeys.put(userName, publicKey);
 	}
+	
+	public void broadcastPublicKey() throws IOException {
+		String pubKey = SerializeObject.serializeObject(publicKey);
+		broadCastMessage(("newUser,"+userName+","+pubKey).getBytes());
+	}
 
 	@Override
 	public void run() {
@@ -48,7 +53,7 @@ public class User implements Serializable, Runnable{
 		broadCastMessage(cipherText);
 	}
 
-	void broadCastMessage(byte[] m) throws IOException {		
+	private void broadCastMessage(byte[] m) throws IOException {		
 		Broadcast.broadcast(m, Network.availableInterfaces().get(0), port);
 	}
 

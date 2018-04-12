@@ -3,6 +3,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 public class Miner extends User{
 	private static final long serialVersionUID = 1L;
@@ -47,6 +48,12 @@ public class Miner extends User{
 				
 				if(sentence.startsWith("miner:false")) {
 					blockChain.addMessage(sentence.substring(12));
+					broadcastEverything();
+				}else if(sentence.startsWith("newUser")) {
+					String[] data = sentence.split(",");
+					String newUserName = data[1];
+					PublicKey newPublicKey = (PublicKey)SerializeObject.deserializeObject(data[2]);
+					publicKeys.put(newUserName, newPublicKey);
 					broadcastEverything();
 				}
 			}
