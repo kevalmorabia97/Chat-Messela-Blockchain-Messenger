@@ -74,7 +74,7 @@ public class User extends Thread implements Serializable{
 			for(Message m : b.blockMessages) {
 				if(m.receiver.equals(userName)){
 					System.out.println(decryptMessage(m.cipherText) + "\n");
-					myMessages += decryptMessage(m.cipherText) + "\n";
+					myMessages += decryptMessage(m.cipherText) + "\n--------------------\n";
 				}
 			}
 		}
