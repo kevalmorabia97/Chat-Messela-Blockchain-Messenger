@@ -1,5 +1,23 @@
-public class Main {
+//package sample;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application{
+	@Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("ent.fxml"));
+        primaryStage.setTitle("Chat Messela");
+        primaryStage.setScene(new Scene(root, 700, 400));
+        primaryStage.show();
+    }
+	
 	public static void main(String[] args) throws Exception {
+		launch(args);
+		System.exit(0);
 //		
 //		User keval = new User("keval", 1111);
 //		keval.start();
@@ -54,7 +72,7 @@ public class Main {
 //		kriti.printMyMessages();
 
 			
-		Miner pro = new Miner("pro", 1111);
-		pro.start();
+//		Miner pro = new Miner("pro", 1111);
+//		pro.start();
 	}
 }

@@ -30,7 +30,6 @@ public class User extends Thread implements Serializable{
 		KeyPair keyPair = RSA_ALgos.buildKeyPair();
 		this.privateKey = keyPair.getPrivate();
 		this.publicKey = keyPair.getPublic();
-		publicKeys.put(userName, publicKey);
 	}
 
 	public void broadcastPublicKey() throws IOException {
@@ -68,17 +67,19 @@ public class User extends Thread implements Serializable{
 		return MessageCodec.decrypt(privateKey, cipherText);
 	}
 
-	void printMyMessages() throws Exception {
+	String printMyMessages() throws Exception {
+		String myMessages = "";
 		System.out.println("----------- MY MESSAGES -----------------");
 		for(Block b : blockChain.blockChain) {
-			System.out.println("BLOCK");
 			for(Message m : b.blockMessages) {
 				if(m.receiver.equals(userName)){
-					System.out.println(decryptMessage(m.cipherText));
+					System.out.println(decryptMessage(m.cipherText) + "\n");
+					myMessages += decryptMessage(m.cipherText) + "\n";
 				}
 			}
 		}
 		System.out.println("-----------------------------------------");
+		return myMessages;
 	}
 
 	public PublicKey getUserPublicKey(String receiverName) {
@@ -86,6 +87,7 @@ public class User extends Thread implements Serializable{
 		return publicKeys.get(receiverName);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void recieve(int port) {
 		try {
 			@SuppressWarnings("resource")
@@ -112,6 +114,9 @@ public class User extends Thread implements Serializable{
 					else {
 						publicKeys.put(newUserName, newPublicKey);
 					}
+				}else if(sentence.startsWith("HASHTABLE")) {
+					String[] data = sentence.split(",");
+					publicKeys = (Hashtable<String, PublicKey>)SerializeObject.deserializeObject(data[1]);
 				}
 			}
 		} catch (IOException e) {

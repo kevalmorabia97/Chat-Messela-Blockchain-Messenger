@@ -50,6 +50,7 @@ public class Miner extends User{
 					}
 					else {
 						publicKeys.put(newUserName, newPublicKey);
+						broadcastAllPublicKeys();
 					}
 				}
 			}
@@ -58,6 +59,13 @@ public class Miner extends User{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}   
+	}
+
+	private void broadcastAllPublicKeys() throws IOException {
+		String hashtableData = SerializeObject.serializeObject(publicKeys);
+		String message = "HASHTABLE," + hashtableData;
+		broadCastMessage(message);
+		
 	}
 
 
