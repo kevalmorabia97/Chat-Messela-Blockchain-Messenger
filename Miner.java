@@ -13,7 +13,7 @@ public class Miner extends User{
 	}
 
 	public void broadcastEverything() throws Exception {
-		String blockChainData = SerializeObject.serializeObject(blockChain.blockChain.get(blockChain.blockChain.size() - 1));
+		String blockChainData = SerializeObject.serializeObject(blockChain);
 		String message = "BLOCKCHAIN," + blockChainData;
 		broadCastMessage(message);
 	}
