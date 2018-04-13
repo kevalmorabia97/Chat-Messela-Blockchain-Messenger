@@ -15,11 +15,11 @@ public class Main extends Application{
 	
 	public static void main(String[] args) throws Exception {
 		// If Miner --> cmd line
-		Miner pro = new Miner("pro",1111);
-		pro.start();
+//		Miner pro = new Miner("pro",1111);
+//		pro.start();
 		
-		// If User --> GUI
-//		launch(args);
-//		System.exit(0);
+//		 If User --> GUI
+		launch(args);
+		System.exit(0);
 	}
 }
