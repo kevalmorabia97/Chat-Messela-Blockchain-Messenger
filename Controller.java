@@ -4,21 +4,14 @@ import java.security.NoSuchAlgorithmException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class Controller {
 	private User u;
-	
-    @FXML
-    private Label pub;
 
     @FXML
     private TextField user;
-
-    @FXML
-    private TextField pri;
 
     @FXML
     private TextArea screen;
@@ -31,16 +24,18 @@ public class Controller {
 
     @FXML
     private Button send;
+    
+    @FXML
+    private Button check;
 
     @FXML
-    void getKeys(ActionEvent ae) throws NoSuchAlgorithmException, IOException, InterruptedException {
-    	
+    void getKeys(ActionEvent ae) throws NoSuchAlgorithmException, IOException, InterruptedException {	
         String u_name=user.getText();
         u = new User(u_name,1111);
         screen.setText("USER CREATED!!!\nHAPPY CHATTING");
-        u.broadcastPublicKey();
-        Thread.sleep(2000);
         u.start();
+        Thread.sleep(10000);
+        u.broadcastPublicKey();
     }    
     
     @FXML
@@ -49,19 +44,10 @@ public class Controller {
         String msg = screen.getText();
         u.createMessage(msg, rec_name);
     }
-
-    @FXML
-    private Button check;
     
     @FXML
     void displayAllMsgs(ActionEvent ae) throws Exception {
     	get.setText("Shown");
         screen.setText(u.printMyMessages());
     }
-
-    @FXML
-    void message(ActionEvent event) {
-    	
-    }
-
 }

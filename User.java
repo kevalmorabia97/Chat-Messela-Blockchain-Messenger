@@ -104,16 +104,6 @@ public class User extends Thread implements Serializable{
 				if(sentence.startsWith("BLOCKCHAIN")) {
 					String[] data = sentence.split(",");
 					blockChain = (BlockChain)SerializeObject.deserializeObject(data[1]);
-				}else if(sentence.startsWith("NEWUSER")) {
-					String[] data = sentence.split(",");
-					String newUserName = data[1];
-					PublicKey newPublicKey = (PublicKey)SerializeObject.deserializeObject(data[2]);
-					if(publicKeys.containsKey(newUserName)) {
-						broadCastMessage("DENIEDNEWUSER," + newUserName);
-					}
-					else {
-						publicKeys.put(newUserName, newPublicKey);
-					}
 				}else if(sentence.startsWith("HASHTABLE")) {
 					String[] data = sentence.split(",");
 					publicKeys = (Hashtable<String, PublicKey>)SerializeObject.deserializeObject(data[1]);
