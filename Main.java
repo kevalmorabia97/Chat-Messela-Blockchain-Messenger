@@ -6,20 +6,24 @@ import javafx.stage.Stage;
 
 public class Main extends Application{
 	@Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ent.fxml"));
-        primaryStage.setTitle("Chat Messela");
-        primaryStage.setScene(new Scene(root, 700, 400));
-        primaryStage.show();
-    }
-	
+	public void start(Stage primaryStage) throws Exception{
+		Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+		primaryStage.setTitle("Chat Messela - Blockchain Messenger");
+		primaryStage.setScene(new Scene(root, 650, 350));
+		primaryStage.setResizable(false);
+		primaryStage.show();
+	}
+
 	public static void main(String[] args) throws Exception {
-		// If Miner --> cmd line
-//		Miner pro = new Miner("pro",1111);
-//		pro.start();
-		
-//		 If User --> GUI
+		//Miner Mode
+		/*
+		Miner pro = new Miner("pro",1111);
+		pro.start();
+		*/
+
+		//User Mode
 		launch(args);
 		System.exit(0);
+
 	}
 }

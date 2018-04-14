@@ -34,7 +34,7 @@ public class Controller {
         u = new User(u_name,1111);
         screen.setText("USER CREATED!!!\nHAPPY CHATTING");
         u.start();
-        Thread.sleep(10000);
+        Thread.sleep(2000);
         u.broadcastPublicKey();
     }    
     
