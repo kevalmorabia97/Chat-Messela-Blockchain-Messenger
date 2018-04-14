@@ -2,6 +2,8 @@
 
 A Blockchain implementation of Chat Messaging in Java
 
+<br>![Image](https://github.com/kevalmorabia97/Chat-Messela-Blockchain-Messenger/blob/master/gui.PNG)<br>
+
 The Gui is made using Java Fx (requires Oracle JDK)
 ```
 $ sudo add-apt-repository ppa:webupd8team/java
@@ -27,4 +29,5 @@ $ java Main
  <br>Chat with other users
  <br>View Received Messages
  <br>When running as User, first enter your name and press _get keys_ which will generate your public and private keys and broadcast them. You will get a msg _USER CREATED!!! HAPPY CHATTING_. After that, enter your text in this text area and the receiver name below and press _Send_ button.
-<hr>
+
+**NOTE:** All systems should be connected to same Wi-Fi network
