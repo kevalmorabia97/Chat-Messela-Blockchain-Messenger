@@ -30,24 +30,24 @@ public class Controller {
 
     @FXML
     void getKeys(ActionEvent ae) throws NoSuchAlgorithmException, IOException, InterruptedException {	
-        String u_name=user.getText();
-        u = new User(u_name,1111);
+        String uName=user.getText();
+        u = new User(uName,Main.port);
         screen.setText("USER CREATED!!!\nHAPPY CHATTING");
         u.start();
         Thread.sleep(2000);
         u.broadcastPublicKey();
+        get.setDisable(true);
     }    
     
     @FXML
     void sendMsg(ActionEvent ae) throws Exception {
-        String rec_name=rec.getText();
+        String recName=rec.getText();
         String msg = screen.getText();
-        u.createMessage(msg, rec_name);
+        u.createMessage(msg, recName);
     }
     
     @FXML
     void displayAllMsgs(ActionEvent ae) throws Exception {
-    	get.setText("Shown");
         screen.setText(u.printMyMessages());
     }
 }
